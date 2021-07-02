@@ -28,7 +28,7 @@ export const dummyStudents = [
       subjects:["Bangla, English"]
     },
     {
-      name:"John Doe",
+      name:"Johnathan Doe",
       email:"john@sad.com",
       phone:"01561321415",
       dateOfBirth:"22/11/1998",
