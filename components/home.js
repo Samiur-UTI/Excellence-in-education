@@ -2,10 +2,31 @@ import React from 'react'
 import Link from "next/link"
 import { Container,Card,CardActions,CardContent,Button,Typography,makeStyles } from '@material-ui/core'
 import { useTheme } from '@material-ui/core/styles';
-
+const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+      height:"50vh"
+    },
+    container:{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center"
+    },
+    title: {
+      flexGrow: 1,
+      fontSize: '2rem',
+      marginLeft:"40%"
+    },
+    button: {
+      fontSize: '1.5em'
+    },
+    text: {
+        fontSize: '1.5rem'
+    }
+  }));
 export default function Home() {
-    const theme = useTheme();
-    const classes = makeStyles(theme)
+    const classes = useStyles();
     return (
         <Card className={classes.root}>
             <Container className={classes.container}>

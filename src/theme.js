@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 // Create a theme instance.
 const theme = createMuiTheme({
-  root: {
+  rootNav: {
     flexGrow: 1,
     backgroundColor:"#b30b43",
     height:"80px",
@@ -11,12 +11,19 @@ const theme = createMuiTheme({
     justifyContent: "space-between",
     alignItems: "center"
   },
-  title: {
+
+  titleNav: {
     flexGrow: 1,
     fontSize: '2em'
   },
-  button: {
+  buttonNav: {
     fontSize: '1.5em'
+  },
+  rootHome: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent:'space-between',
+    alignItems: 'center'
   }
 });
 export default theme;
