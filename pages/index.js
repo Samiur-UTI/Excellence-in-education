@@ -6,10 +6,9 @@ export default function Homepage() {
   
   return (
     <>
-      <Navbar/>
       <Container>
           <Home/>
       </Container>
-    </>
+    </> 
   )
 }

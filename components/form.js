@@ -33,10 +33,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 const StudentForm = () => {
-  const {pathname} = useRouter()
-  console.log(pathname)
+  const router = useRouter()
   const { control, handleSubmit } = useForm();
-  const onSubmit = data => console.log(data);
+  const onSubmit = data => {
+      if(router.pathname === '/students/create'){
+            router.push("/students")
+            console.log(data)
+      } else {
+          router.push("/subjects")
+      }
+  };
   const hudai = subjects.map(subject =>{
       return {
           value:subject,
@@ -44,7 +50,7 @@ const StudentForm = () => {
       }
   })
   const classes = useStyles()
-  if (pathname === '/students/create'){
+  if (router.pathname === '/students/create'){
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <Container className={classes.root}>
