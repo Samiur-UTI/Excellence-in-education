@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import {subjects} from '../staticstorage/storage'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
     root:{
         display: 'flex',
@@ -35,11 +36,18 @@ const useStyles = makeStyles((theme) => ({
 const StudentForm = () => {
   const router = useRouter()
   const { control, handleSubmit } = useForm();
-  const onSubmit = data => {
+  const onSubmit = async data => {
       if(router.pathname === '/students/create'){
-            router.push("/students")
-            console.log(data)
+          //for creating a new student
+            try {
+                const response = await axios.post('/api/new-student',data)
+                console.log(response)
+                router.push("/students")
+            } catch (error) {
+                console.log(error)
+            }
       } else {
+          //for updating a student info
           router.push("/subjects")
       }
   };
@@ -108,7 +116,7 @@ const StudentForm = () => {
                         required={true}
                     />
                     <input className={classes.button} type="submit" />
-          </Container>
+            </Container>
         </form>
       );
     };
