@@ -3,16 +3,10 @@ import {ListItem,Collapse,ListItemText,List,makeStyles} from '@material-ui/core'
 import { ExpandLess,ExpandMore} from '@material-ui/icons'
 import Link from "next/link"
 const useStyles = makeStyles((theme) => ({
-    root:{
-        width: '100%'
-    },
-    udop:{
+    crud:{
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center'
-    },
-    nestedUp:{
-        border:'20px solid #yellow'
     }
 }))
 export default function Item({data}) {
@@ -29,18 +23,15 @@ export default function Item({data}) {
             </ListItem>
             <ListItem>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding className={classes.udop}>
-                        <ListItem button className={classes.nestedUp}>
-                            {/* <Link href="/update"/> */}
-                            <ListItemText primary="READ STUDENT INFO"/>
+                    <List component="div" disablePadding className={classes.crud}>
+                        <ListItem button className={classes.nestedRead}>
+                            <Link href={"/students/" + data.name}>Read Student Details</Link>
                         </ListItem>
                         <ListItem button className={classes.nestedUp}>
-                            {/* <Link href="/update"/> */}
-                            <ListItemText primary="UPDATE STUDENT INFO"/>
+                            <Link href={"/students/" + data.name +"/update"}>Update Student Details</Link>
                         </ListItem>
                         <ListItem button className={classes.nestedDel}>
-                            {/* <Link href="/delete"/> */}
-                            <ListItemText primary="DELETE STUDENT INFO"/>
+                            <Link href={"/students/" + data.name + "/delete"}>Delete Student Details</Link>
                         </ListItem>
                     </List>
                 </Collapse>
