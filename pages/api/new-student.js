@@ -8,7 +8,7 @@ async function handler (req,res){
             const data = req.body;
             const client = await MongoClient.connect('mongodb+srv://samiurkhan:samiur1234@cluster0.uqt26.mongodb.net/ulka?retryWrites=true&w=majority')
             const db = client.db()
-            const studentsCornerCollection = db.collection('studentscorner')
+            const studentsCornerCollection = db.collection('students')
             const result = await studentsCornerCollection.insertOne(data)
             console.log(result)
             client.close();
