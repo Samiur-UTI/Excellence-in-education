@@ -12,7 +12,7 @@ type Student {
     email: String!
     phone: Int!
     dateOfBirth: String!
-    subject: [Subject]!
+    subjects: [Subject]!
   }  
 type Subject {
       _id: ID!

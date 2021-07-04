@@ -1,12 +1,13 @@
 import {MongoClient} from 'mongodb'
-import {CONNECTION} from './cred'
+require('dotenv').config()
+
 // POST /api/new-student
 
 async function handler (req,res){
     if(req.method === 'POST'){
        try {
             const data = req.body;
-            const client = await MongoClient.connect('mongodb+srv://samiurkhan:samiur1234@cluster0.uqt26.mongodb.net/ulka?retryWrites=true&w=majority')
+            const client = await MongoClient.connect(process.env.MONGO_DB_URI)
             const db = client.db()
             const studentsCornerCollection = db.collection('students')
             const result = await studentsCornerCollection.insertOne(data)
