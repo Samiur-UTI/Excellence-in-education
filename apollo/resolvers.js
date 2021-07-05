@@ -58,9 +58,13 @@ const resolvers = {
       },
       //delete a student
       deleteStudent: async (_parent, _args, _context, _info) => {
-          const {id} = _args
-          await _context.db.collection('students').deleteOne({"_id":ObjectId(id)})
-          return "Deleted"
+          try {
+            const {id} = _args
+            await _context.db.collection('students').deleteOne({"_id":ObjectId(id)})
+            return "Deleted"
+          } catch (error) {
+            console.log(error.message)
+          }
       },
       //delete a subject
       deleteSubject: async (_parent, _args, _context, _info) => {

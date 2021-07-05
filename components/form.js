@@ -55,7 +55,7 @@ const StudentForm = ({formData}) => {
   const router = useRouter()
   const { control, handleSubmit } = useForm();
   const classes = useStyles()
-  if (loading) return (
+    if (loading) return (
         <div className="classes.circle">
             <CircularProgress/>
         </div>

@@ -65,3 +65,8 @@ export const UPDATE_STUDENT = gql`
         }
     }
 `
+export const DELETE_STUDENT = gql`
+    mutation DeleteStudent($id:ID){
+        deleteStudent(id:$id)
+    }
+`
