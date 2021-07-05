@@ -15,7 +15,7 @@ const typeDefs = gql`
     subjects: [Subject]
   }  
   type Subject {
-      name: String!
+      value: String!
       label:String!
   }
   type Query {
@@ -29,7 +29,7 @@ const typeDefs = gql`
     subjects: [SubjectInput]!
   }
   input SubjectInput {
-    name: String!
+    value: String!
     label:String!
   }
   type Mutation {
@@ -56,6 +56,16 @@ const resolvers = {
         subjects:subjects
       }
       await _context.db.collection('students').insertOne(newStudent)
+      return newStudent
+    },
+    createSubject: async (_parent, _args, _context, _info) => {
+        const {value,label} = _args.subject
+        const newSubject = {
+          value, 
+          label
+        }
+        await _context.db.collection('subjects').insertOne(newSubject)
+        return newSubject
     }
   }
 }
