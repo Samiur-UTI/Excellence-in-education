@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { gql, useMutation } from '@apollo/client';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useQuery } from '@apollo/react-hooks'
+import {FETCH_SUBJECTS,ADD_STUDENT,UPDATE_STUDENT} from '../apollo/queries'
 const useStyles = makeStyles((theme) => ({
     root:{
         display: 'flex',
@@ -35,45 +36,6 @@ const useStyles = makeStyles((theme) => ({
         width:'100px'
     }
 }))
-const FETCH_SUBJECTS = gql`
-    query SubjectsQuery {
-        subjects{
-            value
-            label
-        }
-    }
-
-` 
-const ADD_STUDENT = gql`
-    mutation CreateStudent($input:StudentInput!){
-        createStudent(student: $input){
-            name
-            email
-            phone
-            dateOfBirth
-            subjects{
-                value,
-                label
-            }
-        }
-    }
-`
-const UPDATE_STUDENT = gql`
-    mutation UpdateStudent($id:ID,$input:UpdateStudentInput){
-        updateStudent(id:$id,student: $input){
-            name
-            email
-            phone
-            dateOfBirth
-            subjects{
-                value,
-                label
-            }
-        }
-    }
-
-`
-
 function subjectHandler(arr){
     let subject= [];
     arr.map((item) => {
@@ -127,6 +89,7 @@ const StudentForm = ({formData}) => {
   const updateOnSubmit = async (data) => {
     const {name, email,phone,dateOfBirth,subject} = data
     const {_id} = formData
+    //updating student data 
       try {
             await updateStudent({
               variables:{
@@ -146,6 +109,7 @@ const StudentForm = ({formData}) => {
       }
   }
   if (router.pathname === '/students/create'){
+    //Conditional rendering to use the form component for both create and update
     return (
         <form onSubmit={handleSubmit(addOnSubmit)}>
             <Container className={classes.root}>

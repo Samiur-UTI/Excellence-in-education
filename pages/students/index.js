@@ -4,6 +4,7 @@ import { Container,List,ListSubheader,makeStyles,CircularProgress} from '@materi
 import { useQuery } from '@apollo/react-hooks'
 import Item from "../../components/listItem"
 import gql from 'graphql-tag'
+import {FETCH_STUDENTS} from '../../apollo/queries'
 const useStyles = makeStyles((theme) => ({
     root:{
         width: '100%'
@@ -27,22 +28,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "50px"
     }
 }))
-const StudentsQuery = gql`
-    query Students{
-        students{
-            _id
-            name
-            email
-            phone
-            dateOfBirth
-            subjects{
-                value
-            }
-        }
-    }
-`
 export default function Students() {
-    const { loading, error, data } = useQuery(StudentsQuery)
+    const { loading, error, data } = useQuery(FETCH_STUDENTS)
     const classes = useStyles()
     if (loading) return (
         <div className="classes.circle">

@@ -4,30 +4,16 @@ import StudentForm from '../../../components/form'
 import { gql, useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import {FIND_STUDENT} from '../../../apollo/queries'
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     '& > * + *': {
       marginLeft: "50%",
     },
+    justifyContent:'center'
   },
 }));
-const FIND_STUDENT = gql`
-    query FetchStudent($id:ID!){
-        student(id:$id){
-            _id
-            name
-            email
-            phone
-            dateOfBirth
-            subjects{
-                value
-                label
-            }
-        }
-    }
-`
 export default function UpdateStudent() {
     const router = useRouter()
     const {query} = router
