@@ -12,7 +12,7 @@ const typeDefs = gql`
     email: String!
     phone: Int!
     dateOfBirth: String!
-    subjects: [Subject]!
+    subjects: [Subject]
   }  
   type Subject {
       name: String!
@@ -42,7 +42,7 @@ const resolvers = {
   Query: {
     students: async (_parent, _args, _context, _info) => {
       const posts = await _context.db.collection('students').find().toArray();
-      console.log(posts)
+      return posts
     },
   },
   Mutation: {
