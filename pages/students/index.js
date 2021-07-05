@@ -1,6 +1,8 @@
 import React from 'react'
+import {useQuery} from "@apollo/client";
 import { dummyStudents } from "../../staticstorage/storage"
 import { Container,List,ListSubheader,makeStyles} from '@material-ui/core'
+import FETCH_ALL_STUDENTS from '../../components/queries/studentsList';
 import Item from "../../components/listItem"
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -16,7 +18,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 export default function Students() {
+    const {loading,error, data} = useQuery(FETCH_ALL_STUDENTS)
+    console.log(data)
     const classes = useStyles()
+    if (error)
+      return <div>Error loading students.</div>;
+    if (loading)
+      return <div>Loading</div>;
     return (
         <Container>
             <List

@@ -28,9 +28,9 @@ export default function MyApp(props) {
             </Head>
             <ThemeProvider theme={theme}>
               {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-              <CssBaseline />
-              <Navbar/>
-              <Component {...pageProps} />
+                <CssBaseline />
+                <Navbar/>
+                <Component {...pageProps} />
             </ThemeProvider>
         </React.Fragment>
     </ApolloProvider>
