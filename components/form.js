@@ -42,7 +42,7 @@ const ADD_STUDENT = gql`
             phone
             dateOfBirth
             subjects{
-                value
+                value,
                 label
             }
         }
@@ -58,7 +58,6 @@ const StudentForm = () => {
           //for creating a new student
             try {
                 const {name, email,phone,dateOfBirth,subject} = data
-                const {value,label} = subject
                 await addStudent({
                     variables:{
                         input1:{
@@ -66,10 +65,11 @@ const StudentForm = () => {
                             email:email,
                             phone:Number(phone),
                             dateOfBirth:dateOfBirth,
-                            
+                            subjects:subject
                         }
                     }
                 })
+                router.push("/students")
             } catch (error) {
                 console.log(JSON.stringify(error, null, 2));
             }
