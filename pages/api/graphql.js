@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb'
 require('dotenv').config()
 
 const typeDefs = gql`
-type Student {
+  type Student {
     _id: ID!
     name: String!
     email: String!
@@ -14,13 +14,27 @@ type Student {
     dateOfBirth: String!
     subjects: [Subject]!
   }  
-type Subject {
-      _id: ID!
+  type Subject {
       name: String!
       label:String!
   }
   type Query {
     students: [Student]!
+  }
+  input StudentInput {
+    name: String!
+    email: String!
+    phone: Int!
+    dateOfBirth: String!
+    subjects: [SubjectInput]!
+  }
+  input SubjectInput {
+    name: String!
+    label:String!
+  }
+  type Mutation {
+    createStudent(student:StudentInput): Student
+    createSubject(subject:SubjectInput): Subject
   }
 `
 
@@ -28,9 +42,22 @@ const resolvers = {
   Query: {
     students: async (_parent, _args, _context, _info) => {
       const posts = await _context.db.collection('students').find().toArray();
-      return posts
+      console.log(posts)
     },
   },
+  Mutation: {
+    createStudent: async (_parent, _args, _context, _info) => {
+      const {name,email,phone,dateOfBirth,subjects} = _args.student
+      const newStudent = {
+        name:name, 
+        email:email, 
+        phone:phone, 
+        dateOfBirth:dateOfBirth,
+        subjects:subjects
+      }
+      await _context.db.collection('students').insertOne(newStudent)
+    }
+  }
 }
 
 const schema = makeExecutableSchema({

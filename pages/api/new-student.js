@@ -11,7 +11,6 @@ async function handler (req,res){
             const db = client.db()
             const studentsCornerCollection = db.collection('students')
             const result = await studentsCornerCollection.insertOne(data)
-            console.log(result)
             client.close();
             res.status(201).json({message:'Student info saved successfully'})
         } catch (error) {
