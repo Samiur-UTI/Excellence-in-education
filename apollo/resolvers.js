@@ -31,16 +31,20 @@ const resolvers = {
     Mutation: {
       //create a new student
       createStudent: async (_parent, _args, _context, _info) => {
-        const {name,email,phone,dateOfBirth,subjects} = _args.student
-        const newStudent = {
-          name:name, 
-          email:email, 
-          phone:phone, 
-          dateOfBirth:dateOfBirth,
-          subjects:subjects
+        try {
+            const {name,email,phone,dateOfBirth,subjects} = _args.student
+            const newStudent = {
+            name:name, 
+            email:email, 
+            phone:phone, 
+            dateOfBirth:dateOfBirth,
+            subjects:subjects
+            }
+            await _context.db.collection('students').insertOne(newStudent)
+            return newStudent
+        } catch (error) {
+            console.log(error)
         }
-        await _context.db.collection('students').insertOne(newStudent)
-        return newStudent
       },
       //create a new subject
       createSubject: async (_parent, _args, _context, _info) => {

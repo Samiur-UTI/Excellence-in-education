@@ -7,6 +7,7 @@ import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
 import {subjects} from '../staticstorage/storage'
 import { useRouter } from 'next/router'
+import { gql, useMutation } from '@apollo/client';
 import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -33,18 +34,44 @@ const useStyles = makeStyles((theme) => ({
         width:'100px'
     }
 }))
+const ADD_STUDENT = gql`
+    mutation CreateStudent($input1:StudentInput!){
+        createStudent(student: $input1){
+            name
+            email
+            phone
+            dateOfBirth
+            subjects{
+                value
+                label
+            }
+        }
+    }
+`
 const StudentForm = () => {
+  const [addStudent, { data }] = useMutation(ADD_STUDENT);
   const router = useRouter()
   const { control, handleSubmit } = useForm();
   const onSubmit = async data => {
       if(router.pathname === '/students/create'){
+          console.log(data)
           //for creating a new student
             try {
-                const response = await axios.post('/api/new-student',data)
-                console.log(response)
-                router.push("/students")
+                const {name, email,phone,dateOfBirth,subject} = data
+                const {value,label} = subject
+                await addStudent({
+                    variables:{
+                        input1:{
+                            name:name,
+                            email:email,
+                            phone:Number(phone),
+                            dateOfBirth:dateOfBirth,
+                            
+                        }
+                    }
+                })
             } catch (error) {
-                console.log(error)
+                console.log(JSON.stringify(error, null, 2));
             }
       } else {
           //for updating a student info

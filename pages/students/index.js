@@ -39,6 +39,7 @@ export default function Students() {
         console.log(JSON.stringify(error, null, 2));
         return 'error while loading users'
     }
+    console.log(data)
     return (
         <Container>
             <List
