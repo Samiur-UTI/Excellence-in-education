@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 const FIND_STUDENT = gql`
     query FetchStudent($id:ID!){
         student(id:$id){
+            _id
             name
             email
             phone

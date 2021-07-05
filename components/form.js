@@ -59,8 +59,8 @@ const ADD_STUDENT = gql`
     }
 `
 const UPDATE_STUDENT = gql`
-    mutation UpdateStudent($input:UpdateStudentInput){
-        updateStudent(student: $input){
+    mutation UpdateStudent($id:ID,$input:UpdateStudentInput){
+        updateStudent(id:$id,student: $input){
             name
             email
             phone
@@ -125,7 +125,25 @@ const StudentForm = ({formData}) => {
             }
     };
   const updateOnSubmit = async (data) => {
-      console.log(data);
+    const {name, email,phone,dateOfBirth,subject} = data
+    const {_id} = formData
+      try {
+            await updateStudent({
+              variables:{
+                  id:_id,
+                  input:{
+                      name:name,
+                      email:email,
+                      phone:Number(phone),
+                      dateOfBirth:dateOfBirth,
+                      subjects:subject
+                  }
+              }
+          })
+          router.push("/students")
+      } catch (error) {
+        console.log(JSON.stringify(error, null, 2))
+      }
   }
   if (router.pathname === '/students/create'){
     return (
