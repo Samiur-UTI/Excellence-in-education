@@ -38,6 +38,8 @@ const typeDefs = gql`
   type Mutation {
     createStudent(student:StudentInput): Student
     createSubject(subject:SubjectInput): Subject
+    deleteStudent(id: ID): String
+    deleteSubject(id: ID): String
   }
 `
 
@@ -93,7 +95,20 @@ const resolvers = {
         }
         await _context.db.collection('subjects').insertOne(newSubject)
         return newSubject
+    },
+    //delete a student
+    deleteStudent: async (_parent, _args, _context, _info) => {
+        const {id} = _args
+        await _context.db.collection('students').deleteOne({"_id":ObjectId(id)})
+        return "Deleted"
+    },
+    //delete a student
+    deleteSubject: async (_parent, _args, _context, _info) => {
+      const {id} = _args
+      await _context.db.collection('subjects').deleteOne({"_id":ObjectId(id)})
+      return "Deleted"
     }
+    
   }
 }
 
