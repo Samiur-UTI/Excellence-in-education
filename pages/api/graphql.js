@@ -35,9 +35,22 @@ const typeDefs = gql`
     value: String!
     label:String!
   }
+  input UpdateStudentInput {
+    name: String
+    email: String
+    phone: Int
+    dateOfBirth: String
+    subjects: [SubjectInput]
+  }
+  input UpdateSubjectInput{
+    value: String
+    label:String
+  }
   type Mutation {
     createStudent(student:StudentInput): Student
     createSubject(subject:SubjectInput): Subject
+    updateStudent(id:ID, student:UpdateStudentInput): Student
+    updateSubject(id:ID, subject:UpdateSubjectInput): Subject
     deleteStudent(id: ID): String
     deleteSubject(id: ID): String
   }
@@ -102,13 +115,24 @@ const resolvers = {
         await _context.db.collection('students').deleteOne({"_id":ObjectId(id)})
         return "Deleted"
     },
-    //delete a student
+    //delete a subject
     deleteSubject: async (_parent, _args, _context, _info) => {
       const {id} = _args
       await _context.db.collection('subjects').deleteOne({"_id":ObjectId(id)})
       return "Deleted"
+    },
+    //update a student (Must ensure form field is not empty on client side)
+    updateStudent: async (_parent, _args, _context, _info) => {
+      const {id,student} = _args
+      const {name,email,phone,dateOfBirth,subjects} = student
+      await _context.db.collection('students').updateOne({"_id":ObjectId(id)},{$set:{name,email,phone,dateOfBirth,subjects}})
+    },
+    //update a category (Must ensure form field is not empty on client side)
+    updateSubject: async (_parent, _args, _context, _info) => {
+      const {id,subject} = _args
+      const {value,label} = subject
+      await _context.db.collection('subjects').updateOne({"_id":ObjectId(id)},{$set:{value,label}})
     }
-    
   }
 }
 
