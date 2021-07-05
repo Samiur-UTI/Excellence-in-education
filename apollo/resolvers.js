@@ -70,9 +70,13 @@ const resolvers = {
       },
       //update a student (Must ensure form field is not empty on client side)
       updateStudent: async (_parent, _args, _context, _info) => {
-        const {id,student} = _args
-        const {name,email,phone,dateOfBirth,subjects} = student
-        await _context.db.collection('students').updateOne({"_id":ObjectId(id)},{$set:{name,email,phone,dateOfBirth,subjects}})
+       try {
+          const {id,student} = _args
+          const {name,email,phone,dateOfBirth,subjects} = student
+          await _context.db.collection('students').updateOne({"_id":ObjectId(id)},{$set:{name,email,phone,dateOfBirth,subjects}})
+       } catch (error) {
+         console.log(error.message)
+       }
       },
       //update a category (Must ensure form field is not empty on client side)
       updateSubject: async (_parent, _args, _context, _info) => {

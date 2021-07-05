@@ -1,6 +1,6 @@
 import React from 'react'
 import { dummyStudents } from "../../staticstorage/storage"
-import { Container,List,ListSubheader,makeStyles} from '@material-ui/core'
+import { Container,List,ListSubheader,makeStyles,CircularProgress} from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 import Item from "../../components/listItem"
 import gql from 'graphql-tag'
@@ -15,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
     },
     nestedUp:{
         border:'20px solid #yellow'
+    },
+    circle: {
+        display: 'flex',
+        '& > * + *': {
+          marginLeft: theme.spacing(2),
+        },
+      },
+    circleContainer:{
+        marginLeft: "50%",
+        marginTop: "50px"
     }
 }))
 const StudentsQuery = gql`
@@ -34,12 +44,18 @@ const StudentsQuery = gql`
 export default function Students() {
     const { loading, error, data } = useQuery(StudentsQuery)
     const classes = useStyles()
-    if (loading) return 'loading users...'
+    if (loading) return (
+        <div className="classes.circle">
+            <Container className={classes.circleContainer}>
+                <CircularProgress/>
+            </Container>
+        </div>
+    )
     if (error) {
         console.log(JSON.stringify(error, null, 2));
         return 'error while loading users'
     }
-    console.log(data)
+    const {students} = data
     return (
         <Container>
             <List
@@ -52,8 +68,8 @@ export default function Students() {
             }
             className={classes.root}
             >
-                {dummyStudents.map(item =>(
-                   <Item key={item.name} data={item}/>
+                {students.map(item =>(
+                   <Item key={item._id} data={item}/>
                 ))}
             </List>
         </Container>

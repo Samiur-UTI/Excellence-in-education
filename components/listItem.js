@@ -25,13 +25,13 @@ export default function Item({data}) {
                 <Collapse in={open} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding className={classes.crud}>
                         <ListItem button className={classes.nestedRead}>
-                            <Link href={"/students/" + data.name}>Read Student Details</Link>
+                            <Link href={"/students/" + data._id}>Read Student Details</Link>
                         </ListItem>
                         <ListItem button className={classes.nestedUp}>
-                            <Link href={"/students/" + data.name +"/update"}>Update Student Details</Link>
+                            <Link href={"/students/" + data._id +"/update"}>Update Student Details</Link>
                         </ListItem>
                         <ListItem button className={classes.nestedDel}>
-                            <Link href={"/students/" + data.name + "/delete"}>Delete Student Details</Link>
+                            <Link href={"/students/" + data._id + "/delete"}>Delete Student Details</Link>
                         </ListItem>
                     </List>
                 </Collapse>

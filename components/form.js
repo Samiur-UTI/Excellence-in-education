@@ -8,7 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import {subjects} from '../staticstorage/storage'
 import { useRouter } from 'next/router'
 import { gql, useMutation } from '@apollo/client';
-import axios from 'axios'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { useQuery } from '@apollo/react-hooks'
 const useStyles = makeStyles((theme) => ({
     root:{
         display: 'flex',
@@ -34,9 +35,18 @@ const useStyles = makeStyles((theme) => ({
         width:'100px'
     }
 }))
+const FETCH_SUBJECTS = gql`
+    query SubjectsQuery {
+        subjects{
+            value
+            label
+        }
+    }
+
+` 
 const ADD_STUDENT = gql`
-    mutation CreateStudent($input1:StudentInput!){
-        createStudent(student: $input1){
+    mutation CreateStudent($input:StudentInput!){
+        createStudent(student: $input){
             name
             email
             phone
@@ -48,19 +58,59 @@ const ADD_STUDENT = gql`
         }
     }
 `
-const StudentForm = () => {
-  const [addStudent, { data }] = useMutation(ADD_STUDENT);
+const UPDATE_STUDENT = gql`
+    mutation UpdateStudent($input:UpdateStudentInput){
+        updateStudent(student: $input){
+            name
+            email
+            phone
+            dateOfBirth
+            subjects{
+                value,
+                label
+            }
+        }
+    }
+
+`
+
+function subjectHandler(arr){
+    let subject= [];
+    arr.map((item) => {
+       let subObj = {}
+       let {value,label} = item
+       subObj.value = value
+       subObj.label = label
+       subject.push(subObj)
+   })
+   return subject
+}
+
+const StudentForm = ({formData}) => {
+  const [addStudent] = useMutation(ADD_STUDENT);
+  const [updateStudent] = useMutation(UPDATE_STUDENT);
+  const { loading, error, data } = useQuery(FETCH_SUBJECTS)
   const router = useRouter()
   const { control, handleSubmit } = useForm();
-  const onSubmit = async data => {
-      if(router.pathname === '/students/create'){
-          console.log(data)
+  const classes = useStyles()
+  if (loading) return (
+        <div className="classes.circle">
+            <CircularProgress/>
+        </div>
+    )
+    if (error) {
+        console.log(JSON.stringify(error, null, 2));
+        return 'error while loading users'
+    }
+  const {subjects} = data;
+  const options = subjectHandler(subjects)
+  const addOnSubmit = async data => {
+    const {name, email,phone,dateOfBirth,subject} = data
           //for creating a new student
             try {
-                const {name, email,phone,dateOfBirth,subject} = data
                 await addStudent({
                     variables:{
-                        input1:{
+                        input:{
                             name:name,
                             email:email,
                             phone:Number(phone),
@@ -73,21 +123,13 @@ const StudentForm = () => {
             } catch (error) {
                 console.log(JSON.stringify(error, null, 2));
             }
-      } else {
-          //for updating a student info
-          router.push("/subjects")
-      }
-  };
-  const hudai = subjects.map(subject =>{
-      return {
-          value:subject,
-          label:subject
-      }
-  })
-  const classes = useStyles()
+    };
+  const updateOnSubmit = async (data) => {
+      console.log(data);
+  }
   if (router.pathname === '/students/create'){
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(addOnSubmit)}>
             <Container className={classes.root}>
                     <h1 className={classes.heading}>Create a new Student record</h1>
                     <Controller
@@ -116,7 +158,7 @@ const StudentForm = () => {
                         name="dateOfBirth"
                         control={control}
                         defaultValue=""
-                        render={({ field: { onChange, value } }) => (
+                        render={({ field: { onChange } }) => (
                             <TextField
                                 id="date"
                                 label="Birthday"
@@ -125,7 +167,6 @@ const StudentForm = () => {
                                 shrink: true,
                                 }}
                                 onChange={onChange}
-                                value={value}
                                 className={classes.textField}
                             />
                         )}
@@ -137,7 +178,7 @@ const StudentForm = () => {
                         render={({ field }) => <Select 
                         {...field}
                         isMulti 
-                        options={hudai}
+                        options={options}
                         className={classes.select} 
                         />}
                         required={true}
@@ -146,7 +187,70 @@ const StudentForm = () => {
             </Container>
         </form>
       );
-    };
+    } else {
+       const {name,email,phone,dateOfBirth,subjects} = formData
+       return(
+            <form onSubmit={handleSubmit(updateOnSubmit)}>
+            <Container className={classes.root}>
+                    <h1 className={classes.heading}>Create a new Student record</h1>
+                    <Controller
+                        name="name"
+                        control={control}
+                        defaultValue={name}
+                        render={({ field }) => <Input className={classes.textField} {...field} />}
+                        required={true}
+                        
+                    />
+                    <Controller
+                        name="email"
+                        control={control}
+                        defaultValue={email}
+                        render={({ field }) => <Input className={classes.textField} {...field} />}
+                        required={true}
+                    />
+                    <Controller
+                        name="phone"
+                        control={control}
+                        defaultValue={phone}
+                        render={({ field }) => <Input className={classes.textField} {...field} />}
+                        required={true}
+                    />
+                    <Controller
+                        name="dateOfBirth"
+                        control={control}
+                        defaultValue={dateOfBirth}
+                        render={({ field: { onChange, value } }) => (
+                            <TextField
+                                id="date"
+                                label="Birthday"
+                                type="date"
+                                InputLabelProps={{
+                                shrink: true,
+                                }}
+                                onChange={onChange}
+                                className={classes.textField}
+                            />
+                        )}
+                        required={true}
+                    />
+                    <Controller
+                        name="subject"
+                        control={control}
+                        render={({ field,onSelect }) => <Select 
+                        {...field}
+                        isMulti
+                        defaultValue={subjectHandler(subjects)} 
+                        options={options}
+                        className={classes.select}
+                        onSelect={onSelect}
+                        />}
+                        required={true}
+                    />
+                    <input className={classes.button} type="submit" />
+            </Container>
+        </form>
+       )
+    }
   }
   
 export default StudentForm
