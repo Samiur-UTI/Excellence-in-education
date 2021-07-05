@@ -1,7 +1,9 @@
 import React from 'react'
 import { dummyStudents } from "../../staticstorage/storage"
 import { Container,List,ListSubheader,makeStyles} from '@material-ui/core'
+import { useQuery } from '@apollo/react-hooks'
 import Item from "../../components/listItem"
+import gql from 'graphql-tag'
 const useStyles = makeStyles((theme) => ({
     root:{
         width: '100%'
@@ -15,8 +17,28 @@ const useStyles = makeStyles((theme) => ({
         border:'20px solid #yellow'
     }
 }))
+const StudentsQuery = gql`
+    query Students{
+        students{
+            _id
+            name
+            email
+            phone
+            dateOfBirth
+            subjects{
+                value
+            }
+        }
+    }
+`
 export default function Students() {
+    const { loading, error, data } = useQuery(StudentsQuery)
     const classes = useStyles()
+    if (loading) return 'loading users...'
+    if (error) {
+        console.log(JSON.stringify(error, null, 2));
+        return 'error while loading users'
+    }
     return (
         <Container>
             <List
