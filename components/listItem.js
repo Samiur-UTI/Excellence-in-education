@@ -55,7 +55,7 @@ export default function Item({data}) {
                             <Link href={"/subjects/" + data.value}>See Details</Link>
                         </ListItem>
                         <ListItem button className={classes.nestedDel}>
-                            <Link href={"/students/" + data.value + "/delete"}>Delete Student Details</Link>
+                            <Link href={"/subjects/" + data.value + "/delete"}>Delete Student Details</Link>
                         </ListItem>
                     </List>
                 </Collapse>

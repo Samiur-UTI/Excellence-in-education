@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {ADD_SUBJECT} from '../../apollo/queries'
 import {useMutation} from '@apollo/client'
 import { useForm, Controller } from "react-hook-form";
@@ -36,7 +36,7 @@ export default function CreateSubject() {
                     }
                 }
             })
-            router.push("/subjects")
+            return router.push("/subjects")
          } catch (error) {
              console.log(JSON.stringify(error, null, 2))
          }

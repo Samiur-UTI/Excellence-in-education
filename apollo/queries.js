@@ -88,7 +88,7 @@ export const UPDATE_SUBJECT = gql`
     }
 `
 export const DELETE_SUBJECT = gql`
-    mutation DeleteSubject($id:ID){
-        deleteSubject(id:$id)
+    mutation DeleteSubject($val:String){
+        deleteSubject(value:$val)
     }
 `

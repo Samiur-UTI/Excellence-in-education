@@ -46,7 +46,7 @@ const typeDefs = gql`
     updateStudent(id:ID, student:UpdateStudentInput): Student
     updateSubject(id:ID, subject:UpdateSubjectInput): Subject
     deleteStudent(id: ID): String
-    deleteSubject(id: ID): String
+    deleteSubject(value:String): String
   }
 `
 

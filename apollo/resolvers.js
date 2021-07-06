@@ -12,7 +12,7 @@ const resolvers = {
           const posts = await _context.db.collection('subjects').find().toArray();
           return posts
         } catch (error) {
-          console.log(JSON.stringify(error, null, 2))
+          console.error(error)
         }
       },
       //fetch a single student
@@ -76,9 +76,13 @@ const resolvers = {
       },
       //delete a subject
       deleteSubject: async (_parent, _args, _context, _info) => {
-        const {id} = _args
-        await _context.db.collection('subjects').deleteOne({"_id":ObjectId(id)})
-        return "Deleted"
+        try {
+          const {value} = _args
+          await _context.db.collection('subjects').deleteOne({"value":value})
+          return "Deleted"
+        } catch (error) {
+          console.log(error.message)
+        }
       },
       //update a student (Must ensure form field is not empty on client side)
       updateStudent: async (_parent, _args, _context, _info) => {
