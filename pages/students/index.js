@@ -1,9 +1,7 @@
 import React from 'react'
-import { dummyStudents } from "../../staticstorage/storage"
 import { Container,List,ListSubheader,makeStyles,CircularProgress} from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 import Item from "../../components/listItem"
-import gql from 'graphql-tag'
 import {FETCH_STUDENTS} from '../../apollo/queries'
 const useStyles = makeStyles((theme) => ({
     root:{

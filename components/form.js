@@ -5,9 +5,8 @@ import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles';
-import {subjects} from '../staticstorage/storage'
 import { useRouter } from 'next/router'
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { useQuery } from '@apollo/react-hooks'
 import {FETCH_SUBJECTS,ADD_STUDENT,UPDATE_STUDENT} from '../apollo/queries'

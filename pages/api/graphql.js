@@ -13,7 +13,7 @@ const apolloServer = new ApolloServer({
       try {
         const dbClient = new MongoClient(process.env.MONGO_DB_URI, {
           useNewUrlParser: true,
-          useUnifiedTopology: true,
+          // useUnifiedTopology: true,
         })
 
         if (!dbClient.isConnected()) await dbClient.connect()

@@ -33,7 +33,7 @@ export default function Navbar() {
               <Button className={classes.button} color="secondary"><Link href="/"><a style={{color:'white',textDecoration:'none'}}>STUDENTS CORNER</a></Link></Button>
             </Typography>
             <Button className={classes.button} color="secondary"><Link href="/students/create"><a style={{color:'white',textDecoration:'none'}}>Add a new student</a></Link></Button>
-            <Button className={classes.button} color="inherit"><Link href="/students/update"><a style={{color:'white',textDecoration:'none'}}>Add a new subject</a></Link></Button>
+            <Button className={classes.button} color="inherit"><Link href="/subjects/create"><a style={{color:'white',textDecoration:'none'}}>Add a new subject</a></Link></Button>
           </Toolbar>
       </Container>
     </AppBar>

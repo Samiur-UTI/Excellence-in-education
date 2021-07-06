@@ -8,8 +8,12 @@ const resolvers = {
       },
       //fetch all subjects
       subjects: async (_parent, _args, _context, _info) => {
-        const posts = await _context.db.collection('subjects').find().toArray();
-        return posts
+        try {
+          const posts = await _context.db.collection('subjects').find().toArray();
+          return posts
+        } catch (error) {
+          console.log(JSON.stringify(error, null, 2))
+        }
       },
       //fetch a single student
       student: async (_parent, _args, _context, _info) => {
@@ -48,13 +52,17 @@ const resolvers = {
       },
       //create a new subject
       createSubject: async (_parent, _args, _context, _info) => {
-          const {value,label} = _args.subject
-          const newSubject = {
-            value, 
-            label
+          try {
+            const {value,label} = _args.subject
+            const newSubject = {
+              value, 
+              label
+            }
+            await _context.db.collection('subjects').insertOne(newSubject)
+            return newSubject
+          } catch (error) {
+            console.log(error.message)
           }
-          await _context.db.collection('subjects').insertOne(newSubject)
-          return newSubject
       },
       //delete a student
       deleteStudent: async (_parent, _args, _context, _info) => {

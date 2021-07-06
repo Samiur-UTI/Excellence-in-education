@@ -38,7 +38,7 @@ export const FETCH_SUBJECTS = gql`
 
 ` 
 export const ADD_STUDENT = gql`
-    mutation CreateStudent($input:StudentInput!){
+    mutation CreateStudent($input:StudentInput){
         createStudent(student: $input){
             name
             email
@@ -68,5 +68,27 @@ export const UPDATE_STUDENT = gql`
 export const DELETE_STUDENT = gql`
     mutation DeleteStudent($id:ID){
         deleteStudent(id:$id)
+    }
+`
+export const ADD_SUBJECT = gql`
+    mutation CreateSubject($input:SubjectInput){
+        createSubject(subject:$input){
+            value
+            label
+        }
+    }
+
+`
+export const UPDATE_SUBJECT = gql`
+    mutation UpdateSubject($id:ID,$input:UpdateSubjectInput){
+        updateSubject(id:$id,subject:$input){
+            value
+            label
+        }
+    }
+`
+export const DELETE_SUBJECT = gql`
+    mutation DeleteSubject($id:ID){
+        deleteSubject(id:$id)
     }
 `
